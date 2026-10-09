@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Starlit Lake &amp; Garden of Hearts</title>
+<style>
+html,body{margin:0;height:100%;background:#050004;overflow:hidden}
+iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#050004;opacity:0;transition:opacity .3s ease}
+nav{position:fixed;z-index:10;top:calc(14px + env(safe-area-inset-top,0px));left:14px;display:flex;flex-direction:column;gap:6px}
+nav button{font:500 13px system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.06em;color:#dfe9ff;background:rgba(10,16,34,.55);border:1px solid rgba(223,233,255,.3);border-radius:999px;padding:9px 16px;cursor:pointer;backdrop-filter:blur(8px);opacity:.7}
+nav button.on{opacity:1;background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.6)}
+</style>
+</head>
+<body>
+<iframe id="f" title="Scene" allow="autoplay"></iframe>
+<nav aria-label="Sections"><button data-k="lake" class="on">Lake</button><button data-k="garden">Garden</button></nav>
+<script>
+/* Two pages in one website: lake.html and garden.html. Only the page you are viewing is loaded. */
+const pages={lake:'lake.html',garden:'garden.html'},f=document.getElementById('f'),bs=[...document.querySelectorAll('nav button')];
+function go(k,push){bs.forEach(b=>b.classList.toggle('on',b.dataset.k===k));f.style.opacity=0;setTimeout(()=>{f.src=pages[k]},250);if(push)history.replaceState(null,'','#'+k);}
+f.onload=()=>{f.style.opacity=1;try{f.contentWindow.focus()}catch(e){}};
+bs.forEach(b=>b.onclick=()=>{if(!b.classList.contains('on'))go(b.dataset.k,true)});
+go(location.hash==='#garden'?'garden':'lake');
+</script>
+</body>
+</html>
